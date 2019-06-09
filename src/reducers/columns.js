@@ -1,4 +1,4 @@
-import {ADD_TASK, ADD_COLUMN, REARANGE_COLUMN,SHIFT_COLUMN,REARANGE_KANBAN} from '../CONST';
+import {ADD_TASK, ADD_COLUMN, REARANGE_COLUMN,SHIFT_COLUMN,REARANGE_KANBAN, RENAME_TASK} from '../CONST';
 
 let latestColumn = 4;
 const initialState= [
@@ -51,7 +51,7 @@ const columnReducer = (state=initialState, action)=>{
 			let latestTask = ourColumn.latestTask+1;
 			ourTasks.push({
 				id: latestTask,
-				title: task.title,
+				title: task.title.substring(0,task.title.length-1).trim(),
 				description: task.description
 			});
 			ourColumn.tasks=[...ourTasks];
@@ -63,11 +63,10 @@ const columnReducer = (state=initialState, action)=>{
 		}
 		case ADD_COLUMN:{
 			const columnToAdd = action.payload;
-			console.log({state,columnToAdd});
 			latestColumn += 1;
 			return [...state, {
 				id: latestColumn,
-				title: columnToAdd.title,
+				title: columnToAdd.title.trim(),
 				kanbanId: columnToAdd.kanbanId,
 				latestTask:-1,
 				tasks:[
@@ -96,7 +95,6 @@ const columnReducer = (state=initialState, action)=>{
 		}
 		case SHIFT_COLUMN:{
 			const {kanbanId,columnId,taskIndex,destinationId,sourceId,sourceIndex,destinationIndex} = action.payload;
-			console.log({kanbanId,columnId,taskIndex,destinationId,sourceId,sourceIndex,destinationIndex});
 			let ourState = [...state];
 			//searching for our column 
 			let ourColumn = ourState.filter((column, index)=>{
@@ -125,12 +123,31 @@ const columnReducer = (state=initialState, action)=>{
 		}
 		case REARANGE_KANBAN:{
 			const  {destinationIndex, sourceIndex} = action.payload;
-			console.log({destinationIndex, sourceIndex})
 			let ourState = [...state];
 			const ourColumn = ourState[sourceIndex];
 			ourState.splice(sourceIndex,1);
 			ourState.splice(destinationIndex,0,ourColumn);
 			return ourState;
+		}
+		case RENAME_TASK:{
+			const {kanbanId,columnId,taskId,title} = action.payload;
+			let ourState = [...state];
+			//searching for our column 
+			let ourColumn = ourState.filter((column, index)=>{
+				if(column.id === columnId && column.kanbanId === kanbanId){
+					return true;
+				}
+				return false;
+			})[0];
+			const newTask = {
+				id:ourColumn.tasks.id,
+				title: title,
+				description: ourColumn.tasks.description
+			}
+			const taskIndex = ourColumn.tasks.map((task, index)=>{if(Number(taskId)===task.id) return index });
+			ourColumn.tasks[taskIndex] = newTask;
+
+			return [...state];
 		}
 		default:
 			return state;

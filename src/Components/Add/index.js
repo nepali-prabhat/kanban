@@ -62,7 +62,10 @@ class Add extends React.Component{
 		if(value.length>=0 && this.props.type==="column"){
 			this.props.dispatch(addColumn({title:value, kanbanId:this.props.kanbanId}));
 			this.setState({...this.state, value: ""});
+			const element = this.props.scrollRef;
+			console.log(element)
 		}
+
 	}
 	handleCancelClick=(e)=>{
 		this.toggleFormMode();

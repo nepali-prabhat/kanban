@@ -6,6 +6,8 @@ import Add from '../Add';
 import { rearangeColumn, shiftColumn, rearrangeKanban } from '../../actions/column';
 
 class Kanban extends Component {
+	scrollElementRef = React.createRef;
+
 	handleDragEnd = (result) => {
 		const { destination, source, draggableId, type } = result;
 		if (destination === null) {
@@ -37,13 +39,16 @@ class Kanban extends Component {
 	}
 	buildDroppableColumn(column, index) {
 		return (
-			<Draggable draggableId={String(column.id)} index={index} key={column.id}>
-				{(provided) => (
+			<Draggable draggableId={String(column.id)} index={index} 
+			key={column.id}>
+				{(provided, snapshot) => (
 					<div
 						{...provided.draggableProps}
 						ref={provided.innerRef}
+						key={column.id}
 					>
 						<Column
+							isDragging={snapshot.isDragging}
 							id={column.id}
 							handle={provided.dragHandleProps}
 							kanbanId={column.kanbanId}
@@ -74,9 +79,10 @@ class Kanban extends Component {
 						{
 							(provided, snapshot) => (
 								<div className="board-columns" ref={provided.innerRef} style={ snapshot.isDraggingOver? {background: 'rgba(119,235,228,0.2)'}:{}}>
+									
 									{columnRender}
 									{provided.placeholder}
-									<div style={{ margin: '20px' }}>
+									<div style={{ padding: '20px'}}>
 										<Add type='column' kanbanId={this.props.id} />
 									</div>
 								</div>

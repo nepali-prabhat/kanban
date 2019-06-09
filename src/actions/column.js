@@ -1,4 +1,4 @@
-import { ADD_COLUMN, REARANGE_COLUMN, SHIFT_COLUMN,REARANGE_KANBAN } from "../CONST";
+import { ADD_COLUMN, REARANGE_COLUMN, SHIFT_COLUMN,REARANGE_KANBAN,RENAME_TASK } from "../CONST";
 
 export const addColumn= (column)=>{
 	return {
@@ -7,6 +7,12 @@ export const addColumn= (column)=>{
 	}
 }
 
+export const renameTask = (task)=>{
+	return {
+		type: RENAME_TASK,
+		payload: task
+	}
+}
 
 export const rearangeColumn= (columnValues)=>{
 	return {

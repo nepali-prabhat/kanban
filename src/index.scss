@@ -17,16 +17,13 @@ body {
 	padding: 10px;
 }
 .kanban{
-	border-radius: 8px;
 	background: rgb(234, 248, 245);
 	height: 90vh;
-	overflow-x: auto;
 	display: grid;
 	grid-auto-rows: 70px 1fr;
 	-moz-box-shadow: 0px 0px 17px -4px rgba(0, 0, 0, 0.64);
 	box-shadow: 0px 0px 17px -4px rgba(0,0,0,0.64);
-	webkit-box-shadow: 0px 0px 17px -4px rgba(0,0,0,0.64);
-
+	
 	.kanban-title{
 		display: flex;
 		align-items: center;
@@ -41,6 +38,7 @@ body {
 	.board-columns{
 		display: flex;
 		transition: all ease-in 300ms;
+		overflow-x: auto;
 	}
 		
 	.kanban-column{
@@ -48,7 +46,6 @@ body {
 		margin: 10px;
 		border-radius: 4px;
 		height: 70vh;
-		overflow-y: auto;
 		.column-title{
 			display: flex;
 			justify-content: space-between;
@@ -81,9 +78,6 @@ body {
 			grid-gap: 10px;
 			padding: 10px;
 			justify-content: center;
-		}
-		.column-task{
-			background: rgba(255,255,255,1);
 		}
 		.column-task:hover{
 			background: rgba(255,255,255,0.8);
