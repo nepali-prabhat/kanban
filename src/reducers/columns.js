@@ -130,22 +130,28 @@ const columnReducer = (state=initialState, action)=>{
 		}
 		case RENAME_TASK:{
 			const {kanbanId,columnId,taskId,title} = action.payload;
-			let ourState = [...state];
+			console.log({kanbanId,columnId,taskId,title})
 			//searching for our column 
-			let ourColumn = ourState.filter((column, index)=>{
+			let ourColumn = state.filter((column, index)=>{
 				if(column.id === columnId && column.kanbanId === kanbanId){
 					return true;
 				}
 				return false;
 			})[0];
-			const newTask = {
-				id:ourColumn.tasks.id,
-				title: title,
-				description: ourColumn.tasks.description
-			}
-			const taskIndex = ourColumn.tasks.map((task, index)=>{if(Number(taskId)===task.id) return index });
-			ourColumn.tasks[taskIndex] = newTask;
-
+			let  taskIndex;
+			ourColumn.tasks.map((task, index)=>{
+				if(Number(taskId)===task.id) 
+				{
+					taskIndex =  index
+				} 
+				return ""
+			});
+			console.log(taskIndex)
+			ourColumn.tasks[taskIndex] = {
+				id:ourColumn.tasks[taskIndex].id,
+				title: title.trim(),
+				description: ourColumn.tasks[taskIndex].description
+			};
 			return [...state];
 		}
 		default:

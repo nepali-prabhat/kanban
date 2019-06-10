@@ -38,7 +38,7 @@ body {
 	.board-columns{
 		display: flex;
 		transition: all ease-in 300ms;
-		overflow-x: auto;
+		overflow-x: scroll;
 	}
 		
 	.kanban-column{
@@ -46,6 +46,7 @@ body {
 		margin: 10px;
 		border-radius: 4px;
 		height: 70vh;
+		overflow-y:auto;
 		.column-title{
 			display: flex;
 			justify-content: space-between;
