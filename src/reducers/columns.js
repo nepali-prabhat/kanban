@@ -104,7 +104,6 @@ const columnReducer = (state=initialState, action)=>{
 				return false;
 			})[0];
 			//removing task index from the source column
-			
 			let ourTasks = ourColumn.tasks;
 			let draggedTask = ourTasks[taskIndex];
 			ourColumn.tasks.splice(taskIndex,1);
