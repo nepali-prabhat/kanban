@@ -1,18 +1,12 @@
 import React from 'react'
 import TaskCard from '../TasksCard';
 import Add from '../Add';
+import ColumnTitle from '../ColumnTitle';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { Droppable } from 'react-beautiful-dnd';
 
 const style = {
-	title: {
-		fontFamily: 'Roboto',
-		fontWeight: '700',
-		fontSize: '20px',
-		marginLeft: '5px',
-		flex:1,
-	},
 	stickyAdd: {
 		position: 'sticky',
 		bottom: '2px',
@@ -47,14 +41,7 @@ class Column extends React.Component {
 				border:  isDragging? '1px dashed #3EC3BB':'none',
 				background:  isDragging? '#c8ebf0':'rgba(255,255,255,0)'
 			}}  id='style-1'>
-				<div className="column-title" >
-					<div style={style.title} {...this.props.handle}>
-						{title}
-					</div>
-					<div className="option">
-						...
-					</div>
-				</div>
+				<ColumnTitle kanbanId={kanbanId} columnId={id} title={title} handle={this.props.handle}/>
 				<Droppable type="Row" droppableId={String(kanbanId) + "," + String(id) + "," + title}>
 					{(provided) => (
 						<div ref={provided.innerRef} className="column-tasks">

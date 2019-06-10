@@ -1,4 +1,4 @@
-import {ADD_TASK, ADD_COLUMN, REARANGE_COLUMN,SHIFT_COLUMN,REARANGE_KANBAN, RENAME_TASK} from '../CONST';
+import {ADD_TASK, ADD_COLUMN, REARANGE_COLUMN,SHIFT_COLUMN,REARANGE_KANBAN, RENAME_TASK,RENAME_COLUMN, DELETE_TASK} from '../CONST';
 
 let latestColumn = 4;
 const initialState= [
@@ -6,8 +6,18 @@ const initialState= [
 		id: 0,
 		kanbanId: 0,
 		title: "/homepage",
-		latestTask:-1,
+		latestTask:5,
 		tasks: [
+			{
+				id:0,
+				title:"i love moi",
+				description: "this is test task."
+			},
+			{
+				id:1,
+				title:"someone kill me please",
+				description: "this is test task."
+			},
 
 		]
 	},
@@ -15,9 +25,13 @@ const initialState= [
 		id: 2,
 		title: "in progress",
 		kanbanId: 0, 
-		latestTask:-1,
+		latestTask:0,
 		tasks:[
-
+			{
+				id:0,
+				title:"doing something to survive",
+				description: "this is test task."
+			},
 		]
 	},
 	{
@@ -130,7 +144,6 @@ const columnReducer = (state=initialState, action)=>{
 		}
 		case RENAME_TASK:{
 			const {kanbanId,columnId,taskId,title} = action.payload;
-			console.log({kanbanId,columnId,taskId,title})
 			//searching for our column 
 			let ourColumn = state.filter((column, index)=>{
 				if(column.id === columnId && column.kanbanId === kanbanId){
@@ -146,12 +159,33 @@ const columnReducer = (state=initialState, action)=>{
 				} 
 				return ""
 			});
-			console.log(taskIndex)
 			ourColumn.tasks[taskIndex] = {
 				id:ourColumn.tasks[taskIndex].id,
 				title: title.trim(),
 				description: ourColumn.tasks[taskIndex].description
 			};
+			return [...state];
+		}
+		case RENAME_COLUMN:{
+			const {columnId, kanbanId,title} = action.payload;
+			let ourColumn = state.filter((column)=>(column.id === columnId && column.kanbanId === kanbanId)? true:false)[0];
+			ourColumn.title = title.trim();
+			return [...state];
+		}
+		case DELETE_TASK:{
+			const {columnId, kanbanId,taskId} = action.payload;
+			console.log({columnId, kanbanId,taskId})
+			state.forEach(column=>{
+				if(column.id===columnId && kanbanId===column.kanbanId){
+					console.log(column)
+					let tasks = column.tasks;
+					tasks.forEach((task,index)=>{
+						if(task.id===taskId){
+							tasks.splice(index,1);
+						}
+					});
+				}
+			});
 			return [...state];
 		}
 		default:

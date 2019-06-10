@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Column from '../Column';
 import Add from '../Add';
+import Modal from '@material-ui/core/Modal';
 import { rearangeColumn, shiftColumn, rearrangeKanban } from '../../actions/column';
+import TaskModelCard from '../TasksCard/TaskModelCard';
 
 class Kanban extends Component {
 	scrollElementRef = React.createRef;
@@ -34,13 +36,13 @@ class Kanban extends Component {
 			}
 		}
 		if (type === "Column") {
-			this.props.dispatch(rearrangeKanban({  destinationIndex: destination.index, sourceIndex: source.index }));
+			this.props.dispatch(rearrangeKanban({ destinationIndex: destination.index, sourceIndex: source.index }));
 		}
 	}
 	buildDroppableColumn(column, index) {
 		return (
-			<Draggable draggableId={String(column.id)} index={index} 
-			key={column.id}>
+			<Draggable draggableId={String(column.id)} index={index}
+				key={column.id}>
 				{(provided, snapshot) => (
 					<div
 						{...provided.draggableProps}
@@ -78,11 +80,11 @@ class Kanban extends Component {
 					<Droppable type="Column" droppableId={String(this.props.id)} direction='horizontal'>
 						{
 							(provided, snapshot) => (
-								<div className="board-columns" ref={provided.innerRef} style={ snapshot.isDraggingOver? {background: 'rgba(119,235,228,0.2)'}:{}}>
-									
+								<div className="board-columns" ref={provided.innerRef} style={snapshot.isDraggingOver ? { background: 'rgba(119,235,228,0.2)' } : {}}>
+
 									{columnRender}
 									{provided.placeholder}
-									<div style={{ padding: '20px'}}>
+									<div style={{ padding: '20px' }}>
 										<Add type='column' kanbanId={this.props.id} />
 									</div>
 								</div>
@@ -90,14 +92,23 @@ class Kanban extends Component {
 						}
 					</Droppable>
 				</DragDropContext>
-
+				<Modal style={{
+					position: 'absolute',
+					width: '100%',
+					height: '100%',
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}} open={this.props.ui.openTaskModel}>
+					{<TaskModelCard />}
+				</Modal>
 			</div>
 		)
 	}
 }
 
 const mapStateToProps = (state) => {
-	return { columns: state.columns }
+	return { columns: state.columns, ui:state.ui }
 }
 
 export default connect(mapStateToProps)(Kanban);
