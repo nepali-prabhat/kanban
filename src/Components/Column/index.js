@@ -15,6 +15,7 @@ const style = {
 	}
 }
 class Column extends React.Component {
+	scrollRef = React.createRef();
 	render() {
 		const { title, tasks, id, kanbanId, isDragging} = this.props;
 		let tasksRender = [];
@@ -27,9 +28,9 @@ class Column extends React.Component {
 					{(provided, snapshot) => (
 						<div
 						key={task.id}
-						{...provided.droppableProps} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+						{...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps}>
 							<TaskCard isDragging={snapshot.isDragging} columnId={id} kanbanId={kanbanId} id={task.id} title={task.title} description={task.description} />
-						</div>
+						</div> 	
 					)}
 				</Draggable>
 			)
@@ -37,6 +38,7 @@ class Column extends React.Component {
 		return (
 			<div 
 			className='kanban-column'
+			ref = {this.scrollRef}
 			style={{
 				border:  isDragging? '1px dashed #3EC3BB':'none',
 				background:  isDragging? '#c8ebf0':'rgba(255,255,255,0)'
@@ -44,14 +46,14 @@ class Column extends React.Component {
 				<ColumnTitle kanbanId={kanbanId} columnId={id} title={title} handle={this.props.handle}/>
 				<Droppable type="Row" droppableId={String(kanbanId) + "," + String(id) + "," + title}>
 					{(provided) => (
-						<div ref={provided.innerRef} className="column-tasks">
+						<div ref={provided.innerRef} {...provided.droppableProps} className="column-tasks">
 							{tasksRender}
 							{provided.placeholder}
 						</div>
 					)}
 				</Droppable>
 				<div style={style.stickyAdd}>
-					<Add type="task" columnId={id} kanbanId={kanbanId} />
+					<Add type="task" scrollRef={this.scrollRef} placeholder="Add new task" columnId={id} kanbanId={kanbanId} />
 				</div>
 			</div>
 		);

@@ -6,6 +6,7 @@ export const SHIFT_COLUMN = "SHIFT_COLUMN";
 export const RENAME_TASK = "RENAME_TASK";
 export const RENAME_COLUMN = "RENAME_COLUMN";
 export const DELETE_TASK = "DELETE_TASK";
+export const UPDATE_DESC = "UPDATE_DESC";
 
 //ui reducer
 export const SET_MODEL = "SET_MODEL";

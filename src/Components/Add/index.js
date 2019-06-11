@@ -45,11 +45,22 @@ const style= {
 }
 class Add extends React.Component{
 	state={formMode:false, value:""}
+	componentDidUpdate = ()=>{
+		if(this.props.type==="task"){
+		const element = this.props.scrollRef.current;
+		element.scrollTop = element.scrollHeight;
+		}
+	}
 	toggleFormMode = ()=>{
 		this.setState({...this.state, formMode:!this.state.formMode, value: ""});
 	}
 	handleValueChange=(e)=>{
 		this.setState({...this.state, value: e.target.value});
+		
+		if(this.props.type==="task"){
+			const element = this.props.scrollRef.current;
+			element.scrollTop = element.scrollHeight;
+			}
 	}
 	handleCheckClick=(e)=>{
 		//dispatch add task if this.state.value != ""
@@ -62,8 +73,6 @@ class Add extends React.Component{
 		if(value.length>=0 && this.props.type==="column"){
 			this.props.dispatch(addColumn({title:value, kanbanId:this.props.kanbanId}));
 			this.setState({...this.state, value: ""});
-			const element = this.props.scrollRef;
-			console.log(element)
 		}
 
 	}
@@ -90,7 +99,7 @@ class Add extends React.Component{
 			formMode?
 			<div style={style.form}>
 				<div style={{flex:1}}>
-					<Textarea onBlur={this.handleBlur} placeholder={"this.props.placeholder"} onKeyUp={this.handleKeyUp} autoFocus value={this.state.value} onChange={this.handleValueChange} style={style.textArea}/>
+					<Textarea onBlur={this.handleBlur} placeholder={this.props.placeholder} onKeyUp={this.handleKeyUp} autoFocus value={this.state.value} onChange={this.handleValueChange} style={style.textArea}/>
 				</div>
 				<div style={style.formButton}>
 					{/* <span style={{color:'green'}}><CheckCircleOutlineIcon/></span>

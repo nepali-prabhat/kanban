@@ -53,7 +53,11 @@ class TasksCard extends React.Component {
 		const { title, kanbanId, columnId, id, isDragging } = this.props;
 		return (
 
-			<div onClick={this.formOpen} onMouseEnter={(e) => { this.setState({ ...this.state, mouseOver: true }) }} onMouseLeave={(e) => { this.setState({ ...this.state, mouseOver: false }) }} style={{ ...style.task, border: isDragging ? '1px dashed #3EC3BB' : 'none', background: isDragging ? '#C6FEFA' : 'rgba(255,255,255,1)' }} className='column-task'>
+			<div onClick={this.formOpen} 
+			onMouseEnter={(e) => { this.setState({ ...this.state, mouseOver: true }) }} 
+			onMouseLeave={(e) => { this.setState({ ...this.state, mouseOver: false }) }} 
+			style={{ ...style.task, border: isDragging ? '1px dashed #3EC3BB' : 'none', background: isDragging ? '#e2fff1' : 'rgba(255,255,255,1)' }} 
+			className='column-task'>
 				{this.state.formMode ?
 					this.formRender()
 					:

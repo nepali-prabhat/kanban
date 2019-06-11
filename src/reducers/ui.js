@@ -1,7 +1,7 @@
 import { SET_MODEL, OPEN_MODEL, CLOSE_MODEL } from "../CONST";
 
 const initialState = {
-	openTaskModel:true,
+	openTaskModel:false,
 	taskModelData:{
 		taskId:0,
 		columnId: 0,

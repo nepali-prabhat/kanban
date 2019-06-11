@@ -1,4 +1,4 @@
-import {ADD_TASK, ADD_COLUMN, REARANGE_COLUMN,SHIFT_COLUMN,REARANGE_KANBAN, RENAME_TASK,RENAME_COLUMN, DELETE_TASK} from '../CONST';
+import {ADD_TASK, ADD_COLUMN, REARANGE_COLUMN,SHIFT_COLUMN,REARANGE_KANBAN, UPDATE_DESC, RENAME_TASK,RENAME_COLUMN, DELETE_TASK} from '../CONST';
 
 let latestColumn = 4;
 const initialState= [
@@ -182,6 +182,22 @@ const columnReducer = (state=initialState, action)=>{
 					tasks.forEach((task,index)=>{
 						if(task.id===taskId){
 							tasks.splice(index,1);
+						}
+					});
+				}
+			});
+			return [...state];
+		}
+		case UPDATE_DESC:{
+			const {columnId, kanbanId,taskId, description} = action.payload;
+			console.log({columnId, kanbanId,taskId})
+			state.forEach(column=>{
+				if(column.id===columnId && kanbanId===column.kanbanId){
+					console.log(column)
+					let tasks = column.tasks;
+					tasks.forEach((task)=>{
+						if(task.id===taskId){
+							task.description=description;
 						}
 					});
 				}

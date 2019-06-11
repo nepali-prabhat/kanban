@@ -19,13 +19,13 @@ class Kanban extends Component {
 			return;
 		}
 		if (type === "Row") {
+			console.log(result);
 
 			if (destination.droppableId === source.droppableId) {
 				//
 				const [kanbanId, columnId, taskIndex] = draggableId.split(',');
 				this.props.dispatch(rearangeColumn({ kanbanId: parseInt(kanbanId), columnId: parseInt(columnId), taskIndex, destinationId: destination.index, sourceId: source.index }));
 			} else {
-				console.log({ destination, source, draggableId });
 				//dragged boi
 				const [kanbanId, columnId, taskIndex] = draggableId.split(',');
 				const destinationId = parseInt(destination.droppableId.split(',')[1]);
@@ -39,6 +39,7 @@ class Kanban extends Component {
 			this.props.dispatch(rearrangeKanban({ destinationIndex: destination.index, sourceIndex: source.index }));
 		}
 	}
+	
 	buildDroppableColumn(column, index) {
 		return (
 			<Draggable draggableId={String(column.id)} index={index}
@@ -61,6 +62,7 @@ class Kanban extends Component {
 			</Draggable>
 		)
 	}
+
 	render() {
 		const { title, columns } = this.props;
 		let columnRender = [];
@@ -80,12 +82,11 @@ class Kanban extends Component {
 					<Droppable type="Column" droppableId={String(this.props.id)} direction='horizontal'>
 						{
 							(provided, snapshot) => (
-								<div className="board-columns" ref={provided.innerRef} style={snapshot.isDraggingOver ? { background: 'rgba(119,235,228,0.2)' } : {}}>
-
+								<div className="board-columns" {...provided.droppableProps} ref={provided.innerRef} style={snapshot.isDraggingOver ? { background: 'rgba(119,235,228,0.2)' } : {}}>
 									{columnRender}
 									{provided.placeholder}
 									<div style={{ padding: '20px' }}>
-										<Add type='column' kanbanId={this.props.id} />
+										<Add placeholder="Add new list" type='column' kanbanId={this.props.id} />
 									</div>
 								</div>
 							)
