@@ -46,9 +46,11 @@ const style= {
 class Add extends React.Component{
 	state={formMode:false, value:""}
 	componentDidUpdate = ()=>{
-		if(this.props.type==="task"){
-		const element = this.props.scrollRef.current;
-		element.scrollTop = element.scrollHeight;
+		if(this.state.formMode){		
+			if(this.props.type==="task"){
+				const element = this.props.scrollRef.current;
+				element.scrollTop = element.scrollHeight;
+			}
 		}
 	}
 	toggleFormMode = ()=>{
@@ -60,7 +62,7 @@ class Add extends React.Component{
 		if(this.props.type==="task"){
 			const element = this.props.scrollRef.current;
 			element.scrollTop = element.scrollHeight;
-			}
+		}
 	}
 	handleCheckClick=(e)=>{
 		//dispatch add task if this.state.value != ""
@@ -97,7 +99,7 @@ class Add extends React.Component{
 		const formMode = this.state.formMode;
 		return (
 			formMode?
-			<div style={style.form}>
+			<div style={{...style.form, margin: this.state.formMode? '0 0 2px 0':'0 0 1px 0'}}>
 				<div style={{flex:1}}>
 					<Textarea onBlur={this.handleBlur} placeholder={this.props.placeholder} onKeyUp={this.handleKeyUp} autoFocus value={this.state.value} onChange={this.handleValueChange} style={style.textArea}/>
 				</div>

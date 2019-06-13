@@ -8,8 +8,6 @@ import { rearangeColumn, shiftColumn, rearrangeKanban } from '../../actions/colu
 import TaskModelCard from '../TasksCard/TaskModelCard';
 
 class Kanban extends Component {
-	scrollElementRef = React.createRef;
-
 	handleDragEnd = (result) => {
 		const { destination, source, draggableId, type } = result;
 		if (destination === null) {
@@ -57,6 +55,7 @@ class Kanban extends Component {
 							kanbanId={column.kanbanId}
 							title={column.title}
 							tasks={column.tasks} />
+							{provided.placeholder}
 					</div>
 				)}
 			</Draggable>

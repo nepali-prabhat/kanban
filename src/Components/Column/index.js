@@ -9,7 +9,7 @@ import { Droppable } from 'react-beautiful-dnd';
 const style = {
 	stickyAdd: {
 		position: 'sticky',
-		bottom: '2px',
+		bottom: '0px',
 		padding: '0 10px',
 		zIndex: '10',
 	}
@@ -30,11 +30,12 @@ class Column extends React.Component {
 						key={task.id}
 						{...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps}>
 							<TaskCard isDragging={snapshot.isDragging} columnId={id} kanbanId={kanbanId} id={task.id} title={task.title} description={task.description} />
-						</div> 	
+						</div>
 					)}
 				</Draggable>
 			)
 		));
+		
 		return (
 			<div 
 			className='kanban-column'
